@@ -22,7 +22,7 @@ namespace BulletBoard.API.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<Item> Get(int id)
+        public async Task<Item> Get(string id)
         {
             return await _itemsRepository.GetByIdAsync(id);
         }

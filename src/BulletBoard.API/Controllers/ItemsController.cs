@@ -1,5 +1,7 @@
-﻿using BulletBoard.Core.Models;
-using BulletBoard.Infrastructure.Repositories;
+﻿using BulletBoard.Application.Items.Mappers;
+using BulletBoard.Application.Items.Queries;
+using BulletBoard.Core.Models;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BulletBoard.API.Controllers
@@ -8,41 +10,78 @@ namespace BulletBoard.API.Controllers
     [ApiController]
     public class ItemsController : ControllerBase
     {
-        private readonly ItemsRepository _itemsRepository;
+        private readonly IMediator _mediator;
+        private readonly ItemMapper _mapper;
 
-        public ItemsController(ItemsRepository itemsRepository)
+        public ItemsController(IMediator mediator, ItemMapper mapper)
         {
-            _itemsRepository = itemsRepository;
+            _mediator = mediator;
+            _mapper = mapper;
         }
 
         [HttpGet]
         public async Task<IEnumerable<Item>> Get()
         {
-            return await _itemsRepository.GetAllAsync();
+            var query = new GetAllItemsQuery();
+
+            var response = await _mediator.Send(query);
+
+            return response.Response;
         }
 
         [HttpGet("{id}")]
         public async Task<Item> Get(string id)
         {
-            return await _itemsRepository.GetByIdAsync(id);
+            var query = new GetItemQuery(id);
+
+            var response = await _mediator.Send(query);
+
+            return response.Response;
         }
 
         [HttpPost]
         public async Task<Item> Post([FromBody] Item value)
         {
-            return await _itemsRepository.AddAsync(value);
+            var command = _mapper.MapToCreateCommand(value);
+
+            var response = await _mediator.Send(command);
+
+            if(response.Response is Item item)
+            {
+                return item;
+            }
+
+            throw new ArgumentNullException();
         }
 
         [HttpPut("{id}")]
         public async Task<Item> Put([FromBody] Item value)
         {
-            return await _itemsRepository.UpdateAsync(value);
+            var command = _mapper.MapToUpdateCommand(value);
+
+            var response = await _mediator.Send(command);
+
+            if(response.Response is Item item)
+            {
+                return item;
+            }
+
+            throw new ArgumentNullException(nameof(item));
         }
 
         [HttpDelete("{id}")]
         public async Task<Item> Delete([FromBody]Item value)
         {
-            return await _itemsRepository.DeleteAsync(value);
+            var command = _mapper.MapToRemoveCommand(value);
+
+            var response = await _mediator.Send(command);
+
+            if(response.Response is Item item)
+            {
+                return item;
+            }
+
+            throw new ArgumentNullException(nameof(item));
         }
     }
 }

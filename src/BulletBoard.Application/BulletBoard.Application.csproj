@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
@@ -7,10 +7,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Items\" />
-    <Folder Include="Pojects\" />
+    <Folder Include="Pojects\Commands\" />
+    <Folder Include="Pojects\Handlers\" />
+    <Folder Include="Pojects\Mappers\" />
+    <Folder Include="Pojects\Responses\" />
+    <Folder Include="Pojects\Queries\" />
     <Folder Include="Teams\Models\" />
-    <Folder Include="Teams\Queries\" />
   </ItemGroup>
 
   <ItemGroup>

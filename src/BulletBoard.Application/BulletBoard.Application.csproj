@@ -7,11 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Pojects\Commands\" />
-    <Folder Include="Pojects\Handlers\" />
-    <Folder Include="Pojects\Mappers\" />
-    <Folder Include="Pojects\Responses\" />
-    <Folder Include="Pojects\Queries\" />
     <Folder Include="Teams\Models\" />
   </ItemGroup>
 

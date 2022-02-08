@@ -7,13 +7,18 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Item\" />
-    <Folder Include="Poject\" />
-    <Folder Include="Team\" />
+    <Folder Include="Teams\Models\" />
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="MediatR" Version="10.0.1" />
+    <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="10.0.1" />
     <PackageReference Include="MongoDB.Driver" Version="2.14.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\BulletBoard.Core\BulletBoard.Core.csproj" />
+    <ProjectReference Include="..\BulletBoard.Infrastructure\BulletBoard.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

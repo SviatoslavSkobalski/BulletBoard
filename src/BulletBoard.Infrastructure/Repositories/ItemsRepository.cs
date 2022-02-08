@@ -21,9 +21,9 @@ namespace BulletBoard.Infrastructure.Repositories
             var result = await _itemsCollection.Find(_ => true).ToListAsync();
             return result;
         }
-        public async Task<Item> GetByIdAsync(int id)
+        public async Task<Item> GetByIdAsync(string id)
         {
-            var result = await _itemsCollection.Find(item => item.Id.Equals(id)).FirstOrDefaultAsync();
+            var result = await _itemsCollection.Find(item => item.Id == id).FirstOrDefaultAsync();
             return result;
         }
         public async Task<Item> AddAsync(Item entity)
@@ -38,7 +38,7 @@ namespace BulletBoard.Infrastructure.Repositories
         }
         public async Task<Item> DeleteAsync(Item entity)
         {
-            var result = await _itemsCollection.DeleteOneAsync(item => item.Id.Equals(entity.Id));
+            var result = await _itemsCollection.DeleteOneAsync(item => item.Id == entity.Id);
             return entity;
         }
     }

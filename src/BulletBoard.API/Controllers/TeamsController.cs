@@ -1,5 +1,7 @@
-﻿using BulletBoard.Core.Models;
-using BulletBoard.Infrastructure.Repositories;
+﻿using BulletBoard.Application.Teams.Mappers;
+using BulletBoard.Application.Teams.Queries;
+using BulletBoard.Core.Models;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BulletBoard.API.Controllers
@@ -8,46 +10,84 @@ namespace BulletBoard.API.Controllers
     [ApiController]
     public class TeamsController : ControllerBase
     {
-        private readonly TeamsRepository _teamsRepository;
+        private readonly IMediator _mediator;
+        private readonly TeamMapper _mapper;
 
-        public TeamsController(TeamsRepository teamsRepository)
+        public TeamsController(IMediator mediator, TeamMapper mapper)
         {
-            _teamsRepository = teamsRepository;
+            _mediator = mediator;
+            _mapper = mapper;
         }
 
         [HttpGet]
         public async Task<IEnumerable<Team>> Get()
         {
-            var result = await _teamsRepository.GetAllAsync();
-            return result;
+            var query = new GetAllTeamsQuery();
+
+            var result = await _mediator.Send(query);
+
+            return result.Response;
         }
 
         [HttpGet("{id}")]
-        public async Task<Team> GetAsync(int id)
+        public async Task<Team> GetAsync(string id)
         {
-            var result = await _teamsRepository.GetByIdAsync(id);
-            return result;
+            var query = new GetTeamQuery(id);
+
+            var result = await _mediator.Send(query);
+
+            return result.Response;
         }
 
         [HttpPost]
         public async Task<Team> Post([FromBody] Team value)
         {
-            var result = await _teamsRepository.AddAsync(value);
-            return result;
+            var command = _mapper.MapToUpdateCommand(value);
+
+            var result = await _mediator.Send(command);
+
+            if(result.Response is Team team)
+            {
+                return team;
+            }
+            else
+            {
+                throw new ArgumentNullException(nameof(team));
+            }
         }
 
         [HttpPut("{id}")]
         public async Task<Team> Put([FromBody] Team value)
         {
-            var result = await _teamsRepository.UpdateAsync(value);
-            return result;
+            var command = _mapper.MapToUpdateCommand(value);
+
+            var result = await _mediator.Send(command);
+
+            if(result?.Response is Team team)
+            {
+                return team;
+            }
+            else
+            {
+                throw new ArgumentNullException(nameof(team));
+            }
         }
 
         [HttpDelete("{id}")]
-        public async Task<Team> Delete([FromBody] Team team)
+        public async Task<Team> Delete([FromBody] Team value)
         {
-            var result = await _teamsRepository.DeleteAsync(team);
-            return result;
+            var command = _mapper.MapToRemoveCommand(value);
+
+            var result = await _mediator.Send(command);
+
+            if(result?.Response is Team team)
+            {
+                return team;
+            }
+            else
+            {
+                throw new ArgumentNullException();
+            }
         }
     }
 }

@@ -1,6 +1,6 @@
 using BulletBoard.API.Extensions;
-using BulletBoard.Infrastructure.Data;
-using BulletBoard.Infrastructure.Repositories;
+using BulletBoard.Application.Teams.Handlers.CommandHandlers;
+using MediatR;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,6 +11,8 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddMongoDb(builder.Configuration);
+builder.Services.AddMediatR(typeof(CreateTeamCommandHandler).Assembly);
+builder.Services.AddServiceDependencies();
 
 var app = builder.Build();
 

@@ -2,13 +2,13 @@
 using BulletBoard.Application.Pojects.Queries;
 using BulletBoard.Core.Models;
 using MediatR;
-using Microsoft.AspNetCore.Mvc;
+using System.Web.Http;
 
 namespace BulletBoard.API.Controllers
 {
     [Route("api/[controller]")]
-    [ApiController]
-    public class ProjectsController : ControllerBase
+    [Authorize]
+    public class ProjectsController : ApiController
     {
         private readonly IMediator _mediator;
         private readonly ProjectMapper _mapper;
@@ -18,7 +18,7 @@ namespace BulletBoard.API.Controllers
             _mediator = mediator;
             _mapper = mapper;
         }
-        [HttpGet]
+        //[HttpGet]
         public async Task<IEnumerable<Project>> Get()
         {
             var query = new GetAllProjectsQuery();
@@ -28,7 +28,7 @@ namespace BulletBoard.API.Controllers
             return response.Response;
         }
 
-        [HttpGet("{id}")]
+        //[HttpGet]
         public async Task<Project> Get(string id)
         {
             var query = new GetProjectQuery(id);
@@ -38,7 +38,7 @@ namespace BulletBoard.API.Controllers
             return response.Response;
         }
 
-        [HttpPost]
+        //[HttpPost]
         public async Task<Project> Post([FromBody] Project value)
         {
             var command = _mapper.MapToCreateCommand(value);
@@ -52,7 +52,7 @@ namespace BulletBoard.API.Controllers
             throw new ArgumentNullException(nameof(project));
         }
 
-        [HttpPut("{id}")]
+        //[HttpPut("{id}")]
         public async Task<Project> Put([FromBody] Project value)
         {
             var command = _mapper.MapToUpdateCommand(value);
@@ -66,7 +66,7 @@ namespace BulletBoard.API.Controllers
             throw new ArgumentNullException(nameof(project));
         }
 
-        [HttpDelete("{id}")]
+        //[HttpDelete("{id}")]
         public async Task<Project> Delete(Project value)
         {
             var command = _mapper.MapToRemoveCommand(value);

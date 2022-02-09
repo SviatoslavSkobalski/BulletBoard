@@ -1,6 +1,7 @@
 ﻿using BulletBoard.Application.Items.Mappers;
 using BulletBoard.Application.Pojects.Mappers;
 using BulletBoard.Application.Teams.Mappers;
+using BulletBoard.Application.Users.Mappers;
 
 namespace BulletBoard.API.Extensions
 {
@@ -10,7 +11,8 @@ namespace BulletBoard.API.Extensions
         {
             return services.AddSingleton<ItemMapper>()
                            .AddSingleton<ProjectMapper>()
-                           .AddSingleton<TeamMapper>(); 
+                           .AddSingleton<TeamMapper>()
+                           .AddSingleton<UserMapper>();
         }
     }
 }

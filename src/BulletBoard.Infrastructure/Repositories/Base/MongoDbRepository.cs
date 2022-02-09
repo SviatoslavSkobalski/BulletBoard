@@ -8,13 +8,13 @@ namespace BulletBoard.Infrastructure.Repositories.Base
     {
         protected readonly IMongoDatabase _mongoDatabase;
 
-        public MongoDbRepository(IOptions<MongoDbSettings> bookStoreDatabaseSettings)
+        public MongoDbRepository(IOptions<MongoDbSettings> bulletBoardDatabaseSettings)
         {
             var mongoClient = new MongoClient(
-            bookStoreDatabaseSettings.Value.ConnectionString);
+            bulletBoardDatabaseSettings.Value.ConnectionString);
 
             _mongoDatabase = mongoClient.GetDatabase(
-                bookStoreDatabaseSettings.Value.DatabaseName);
+                bulletBoardDatabaseSettings.Value.DatabaseName);
         }
     }
 }

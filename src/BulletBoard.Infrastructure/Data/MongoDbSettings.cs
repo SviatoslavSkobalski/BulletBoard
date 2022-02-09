@@ -7,5 +7,6 @@
         public string TeamsCollectionName { get; set; } = null!;
         public string ProjectsCollectionName { get; set; } = null!;
         public string ItemsCollectionName { get; set; } = null!;
+        public string UsersCollectionName { get; set; } = null!;
     }
 }

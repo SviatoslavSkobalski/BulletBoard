@@ -10,7 +10,8 @@ namespace BulletBoard.API.Extensions
             return services.Configure<MongoDbSettings>(configuration.GetSection("MongoDb"))
                            .AddSingleton<TeamsRepository>()
                            .AddSingleton<ProjectsRepository>()
-                           .AddSingleton<ItemsRepository>();
+                           .AddSingleton<ItemsRepository>()
+                           .AddSingleton<UsersRepository>();
         }
     }
 }

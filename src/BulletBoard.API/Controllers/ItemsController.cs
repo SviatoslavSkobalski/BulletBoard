@@ -2,12 +2,13 @@
 using BulletBoard.Application.Items.Queries;
 using BulletBoard.Core.Models;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BulletBoard.API.Controllers
 {
     [Route("api/[controller]")]
-    [ApiController]
+    [Authorize]
     public class ItemsController : ControllerBase
     {
         private readonly IMediator _mediator;
@@ -54,7 +55,7 @@ namespace BulletBoard.API.Controllers
             throw new ArgumentNullException();
         }
 
-        [HttpPut("{id}")]
+       [HttpPut("{id}")]
         public async Task<Item> Put([FromBody] Item value)
         {
             var command = _mapper.MapToUpdateCommand(value);
